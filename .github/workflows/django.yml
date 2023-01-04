@@ -26,3 +26,11 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test home.apps.api 
+    - name: Trigger next workflow
+      if: success()
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        token: ${{ secrets.PIPELINE_POC_GHA_SECRET }}
+        repository: ${{ github.repository }}
+        event-type: Pylint
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
