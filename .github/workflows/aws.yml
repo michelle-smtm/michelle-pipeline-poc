@@ -32,9 +32,10 @@ on:
 
 env:
   AWS_REGION: us-east-1                   # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: 062621911729.dkr.ecr.us-east-1.amazonaws.com/pipeline-poc-repo          # set this to your Amazon ECR repository name
+  ECR_REGISTRY: 062621911729.dkr.ecr.us-east-1.amazonaws.com          # set this to your Amazon ECR repository name
+  ECR_REPO: pipeline-poc-repo
   ECS_SERVICE: pipeline-service                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: pipeline-service                 # set this to your Amazon ECS cluster name
+  ECS_CLUSTER: michelle-manual-poc-cluster                 # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION: pipeline-poc-task # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: pipeline-container-name           # set this to the name of the container in the
