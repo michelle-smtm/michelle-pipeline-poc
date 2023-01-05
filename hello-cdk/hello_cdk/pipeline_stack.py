@@ -4,6 +4,7 @@ from aws_cdk import (
     pipelines as pipelines,
     aws_codebuild as codebuild
 )
+from hello_cdk.deploy_stage import DeployStage
 
 class PipelineStack(Stack):
 
@@ -27,3 +28,6 @@ class PipelineStack(Stack):
                 primary_output_directory= 'hello-cdk/cdk.out',
             ),
         )
+
+        deploy = DeployStage(self, "Deploy")
+        deploy_stage = pipeline.add_stage(deploy)
