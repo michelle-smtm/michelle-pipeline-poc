@@ -19,8 +19,9 @@ class PipelineStack(Stack):
                 input=pipelines.CodePipelineSource.connection("michelle-smtm/michelle-pipeline-poc", "cdk-pipeline", connection_arn="arn:aws:codestar-connections:us-east-1:062621911729:connection/78b6f50a-09b4-470a-81a3-9351f51411fc"
            ),
                 commands=[
+                    "cd hello-cdk",
                     "npm install -g aws-cdk",  # Installs the cdk cli on Codebuild
-                    "pip install -r hello-cdk/requirements.txt",  # Instructs Codebuild to install required packages
+                    "pip install -r requirements.txt",  # Instructs Codebuild to install required packages
                     "cdk synth",
                 ],
                 primary_output_directory= 'hello-cdk/cdk.out',
