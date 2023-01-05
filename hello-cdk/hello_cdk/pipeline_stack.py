@@ -16,7 +16,7 @@ class PipelineStack(Stack):
             "Pipeline",
             synth=pipelines.ShellStep(
                 "Synth",
-                input=pipelines.CodePipelineSource.connection("michelle-smtm/michelle-pipeline-poc", "pipeline_demo_branch", connection_arn="arn:aws:codestar-connections:us-east-1:062621911729:connection/78b6f50a-09b4-470a-81a3-9351f51411fc"
+                input=pipelines.CodePipelineSource.connection("michelle-smtm/michelle-pipeline-poc", "cdk-pipeline", connection_arn="arn:aws:codestar-connections:us-east-1:062621911729:connection/78b6f50a-09b4-470a-81a3-9351f51411fc"
            ),
                 commands=[
                     "npm install -g aws-cdk",  # Installs the cdk cli on Codebuild
