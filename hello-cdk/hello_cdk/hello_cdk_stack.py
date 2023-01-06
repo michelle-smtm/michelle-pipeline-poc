@@ -29,7 +29,7 @@ class HelloCdkStack(Stack):
 
         cluster = ecs.Cluster(self, "CodePipelineEcsCluster", vpc=vpc)
         asset = DockerImageAsset(self, "MyBuildImage",
-            directory= "../home",
+            directory= "../home-outer",
             file="Dockerfile",
             network_mode=NetworkMode.HOST
         )
