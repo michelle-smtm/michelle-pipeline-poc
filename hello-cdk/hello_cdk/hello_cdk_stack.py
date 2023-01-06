@@ -32,11 +32,8 @@ class HelloCdkStack(Stack):
         image = ecs.ContainerImage.from_ecr_repository(repository)
         container = task_definition.add_container( "cdk-container", image=image)
 
-
-        service = ecs.FargateService(self, "Service", cluster=cluster, task_definition=task_definition)
-
-        ecs.FargateService(self, "CdkCodePipelineEcsService",
+        fargate = ecs.FargateService(self, "CdkCodePipelineEcsService",
             cluster=cluster,            # Required
             task_definition=task_definition,
-            desired_count=2,      # Default is 512
+            desired_count=1,      # Default is 512
             assign_public_ip=True)  
