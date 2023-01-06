@@ -26,13 +26,17 @@ class HelloCdkStack(Stack):
 
         cluster = ecs.Cluster(self, "CodePipelineEcsCluster", vpc=vpc)
 
+        task_definition = ecs.FargateTaskDefinition( self, "cdk-task-def", cpu=512, memory_limit_mib=2048)
         repository = ecr.Repository.from_repository_name(self, "CdkEcrRepo", "codepipeline-poc-repo")
+
+        image = ecs.ContainerImage.from_ecr_repository(repository)
+        container = task_definition.add_container( "cdk-container", image=image)
+
+
+        service = ecs.FargateService(self, "Service", cluster=cluster, task_definition=task_definition)
 
         ecs.FargateService(self, "CdkCodePipelineEcsService",
             cluster=cluster,            # Required
-            cpu=256,                    # Default is 256
-            desired_count=2,            # Default is 1
-            task_image_options=ecs_pattern.ApplicationLoadBalancedTaskImageOptions(
-                image=ecs.ContainerImage.from_ecr_repository(repository)),
-            memory_limit_mib=512,      # Default is 512
+            task_definition=task_definition,
+            desired_count=1,      # Default is 512
             assign_public_ip=True)  
