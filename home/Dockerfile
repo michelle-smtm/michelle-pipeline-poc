@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/python:slim-buster
+FROM public.ecr.aws/docker/library/python:3.8
 
 ENV PYTHONBUFFERED 1 
 
