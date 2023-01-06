@@ -28,11 +28,11 @@ class HelloCdkStack(Stack):
 
         repository = ecr.Repository.from_repository_name(self, "CdkEcrRepo", "codepipeline-poc-repo")
 
-        ecs_pattern.ApplicationLoadBalancedFargateService(self, "CdkCodePipelineEcsService",
+        ecs.FargateService(self, "CdkCodePipelineEcsService",
             cluster=cluster,            # Required
             cpu=256,                    # Default is 256
-            desired_count=1,            # Default is 1
+            desired_count=2,            # Default is 1
             task_image_options=ecs_pattern.ApplicationLoadBalancedTaskImageOptions(
                 image=ecs.ContainerImage.from_ecr_repository(repository)),
             memory_limit_mib=512,      # Default is 512
-            public_load_balancer=True)  # Default is True
+            assign_public_ip=True)  
