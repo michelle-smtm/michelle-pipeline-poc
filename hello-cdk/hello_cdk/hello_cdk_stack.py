@@ -35,5 +35,5 @@ class HelloCdkStack(Stack):
         fargate = ecs.FargateService(self, "CdkCodePipelineEcsService",
             cluster=cluster,            # Required
             task_definition=task_definition,
-            desired_count=2,      # Default is 512
+            desired_count=1,      # Default is 512
             assign_public_ip=True)  
