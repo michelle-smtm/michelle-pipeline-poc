@@ -4,7 +4,8 @@ from aws_cdk import (
     pipelines as pipelines,
     aws_codepipeline_actions,
     aws_codepipeline,
-    aws_codebuild as codebuild
+    aws_codebuild as codebuild,
+    aws_ecr
 )
 from hello_cdk.deploy_stage import DeployStage
 
@@ -15,14 +16,17 @@ class PipelineStack(Stack):
 
         source_artifact = aws_codepipeline.Artifact
 
-        input_artifact = pipelines.CodePipelineSource.connection("michelle-smtm/michelle-pipeline-poc", "cdk-pipeline", connection_arn="arn:aws:codestar-connections:us-east-1:062621911729:connection/78b6f50a-09b4-470a-81a3-9351f51411fc")
+        repository = aws_ecr.Repository.from_repository_name(self, "CdkEcrRepo", "codepipeline-poc-repo")
+        input_ecr = pipelines.CodePipelineSource.ecr(repository)
+
+        #input_artifact = pipelines.CodePipelineSource.connection("michelle-smtm/michelle-pipeline-poc", "cdk-pipeline", connection_arn="arn:aws:codestar-connections:us-east-1:062621911729:connection/78b6f50a-09b4-470a-81a3-9351f51411fc")
         # Pipeline code will go here
         my_pipeline = pipelines.CodePipeline(
             self,
             "Pipeline",
             synth=pipelines.ShellStep(
                 "Synth",
-                input=input_artifact,
+                input=input_ecr,
                 commands=[
                     "cd hello-cdk",
                     "npm install -g aws-cdk",  # Installs the cdk cli on Codebuild
