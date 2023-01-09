@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM public.ecr.aws/docker/library/python:3.8
 
 ENV PYTHONBUFFERED 1 
 
