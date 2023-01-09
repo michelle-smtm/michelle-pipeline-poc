@@ -5,7 +5,7 @@ from aws_cdk import (
     aws_codepipeline_actions,
     aws_codepipeline,
     aws_codebuild as codebuild,
-    aws_ecr
+    aws_lambda
 )
 from hello_cdk.deploy_stage import DeployStage
 
@@ -42,3 +42,14 @@ class PipelineStack(Stack):
 
         deploy = DeployStage(self, "Deploy")
         deploy_stage = my_pipeline.add_stage(deploy)
+
+        lambda_action = aws_codepipeline_actions.LambdaInvokeAction(
+            action_name="IntegTests",
+            user_parameters_string="hello",
+            lambda_=aws_lambda.Function.from_function_arn(
+                self,
+                id="TestLambda",
+                function_arn="arn:aws:lambda:us-east-1:062621911729:function:MyLambdaFunctionForAWSCodePipeline")
+        )
+        
+
