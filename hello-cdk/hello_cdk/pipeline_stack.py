@@ -19,7 +19,9 @@ class PipelineStack(Stack):
         #repository = aws_ecr.Repository.from_repository_name(self, "CdkEcrRepo", "codepipeline-poc-repo")
         #input_ecr = pipelines.CodePipelineSource.ecr(repository)
 
-        input_artifact = pipelines.CodePipelineSource.connection("michelle-smtm/michelle-pipeline-poc", "cdk-pipeline", connection_arn="arn:aws:codestar-connections:us-east-1:062621911729:connection/78b6f50a-09b4-470a-81a3-9351f51411fc")
+        source_stage = pipelines.SourceStage
+
+        input_artifact = pipelines.CodePipelineSource.connection("michelle-smtm/michelle-pipeline-poc", "main", connection_arn="arn:aws:codestar-connections:us-east-1:062621911729:connection/78b6f50a-09b4-470a-81a3-9351f51411fc")
         # Pipeline code will go here
         my_pipeline = pipelines.CodePipeline(
             self,
@@ -36,6 +38,8 @@ class PipelineStack(Stack):
                 primary_output_directory= 'hello-cdk/cdk.out',
             )
         )
+
+        codebuild.Project(self, "BuildProject", )
 
         #build_action = aws_codepipeline_actions.CodeBuildAction(action_name='DockerBuildImages', input=input_artifact, project=pipeline_project)
         #build_stage = pipeline.add_stage(aws_codepipeline.StageProps( stage_name='Build', actions= build_action))
