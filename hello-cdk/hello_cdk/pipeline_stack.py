@@ -19,7 +19,7 @@ class PipelineStack(Stack):
         #repository = aws_ecr.Repository.from_repository_name(self, "CdkEcrRepo", "codepipeline-poc-repo")
         #input_ecr = pipelines.CodePipelineSource.ecr(repository)
 
-        input_artifact = pipelines.CodePipelineSource.connection("michelle-smtm/michelle-pipeline-poc", "cdk-pipeline", connection_arn="arn:aws:codestar-connections:us-east-1:062621911729:connection/78b6f50a-09b4-470a-81a3-9351f51411fc")
+        input_artifact = pipelines.CodePipelineSource.connection("michelle-smtm/michelle-pipeline-poc", "main", connection_arn="arn:aws:codestar-connections:us-east-1:062621911729:connection/78b6f50a-09b4-470a-81a3-9351f51411fc")
         # Pipeline code will go here
         my_pipeline = pipelines.CodePipeline(
             self,
