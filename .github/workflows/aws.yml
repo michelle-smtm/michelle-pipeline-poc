@@ -59,6 +59,15 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
+        
+    - name: Run CDK Diff
+      id: run-cdk-diff
+      run: |
+        cd hello-cdk
+        npm install -g aws-cdk
+        pip install -r requirements.txt
+        cdk synth
+        cdk deploy --app="python3 hello-cdk/app.py"--require-approval=never --verbose
 
     - name: Login to Amazon ECR
       id: login-ecr
@@ -79,15 +88,6 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
-
-    - name: Run CDK Diff
-      id: run-cdk-diff
-      run: |
-        cd hello-cdk
-        npm install -g aws-cdk
-        pip install -r requirements.txt
-        cdk synth
-        cdk deploy --app="python3 hello-cdk/app.py"--require-approval=never --verbose
 
     - name: Download Task Definition
       run: |
