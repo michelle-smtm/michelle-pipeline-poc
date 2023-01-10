@@ -69,7 +69,6 @@ jobs:
         cdk synth
         cdk deploy --require-approval=never --verbose
         cdk-assets 
-    - name: 
 
     - name: Login to Amazon ECR
       id: login-ecr
