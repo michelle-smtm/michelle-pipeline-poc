@@ -9,9 +9,9 @@ from hello_cdk.pipeline_stack import PipelineStack
 
 app = cdk.App()
 
-PipelineStack(app, "PipelineStack",
-    env=cdk.Environment(account='062621911729', region='us-east-1'),
-)
+# PipelineStack(app, "PipelineStack",
+#     env=cdk.Environment(account='062621911729', region='us-east-1'),
+# )
 
 HelloCdkStack(app, "HelloCdkStack",
 #     # If you don't specify 'env', this stack will be environment-agnostic.
