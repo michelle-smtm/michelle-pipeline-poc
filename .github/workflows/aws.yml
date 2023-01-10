@@ -68,7 +68,6 @@ jobs:
         pip install -r requirements.txt
         cdk synth
         cdk deploy --require-approval=never --verbose
-        cdk-assets 
 
     - name: Login to Amazon ECR
       id: login-ecr
