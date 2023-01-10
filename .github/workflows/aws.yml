@@ -28,7 +28,7 @@ name: Deploy to Amazon ECS
 
 on:
   push:
-    branches: [ "cdk-pipeline" ]
+    branches: [ "github_actions_demo" ]
 
 env:
   AWS_REGION: us-east-1                   # set this to your preferred AWS region, e.g. us-west-1
@@ -78,4 +78,33 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+    - name: Run CDK Diff
+      id: run-cdk-diff
+      run: |
+        cd hello-cdk
+        npm install -g aws-cdk
+        pip install -r requirements.txt
+        cdk synth
+        cdk -a . deploy PipelineStack --require-approval=never --verbose
+
+    - name: Download Task Definition
+      run: |
+        aws ecs describe-task-definition --task-definition $ECS_TASK_DEFINITION --query taskDefinition > task-definition.json
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: ./task-definition.json
+        container-name: ${{ env.CONTAINER_NAME }}
+        image: ${{ steps.build-image.outputs.image }}
+
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: true
+
 
