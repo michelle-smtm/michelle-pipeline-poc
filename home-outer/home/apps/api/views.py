@@ -20,4 +20,4 @@ class HelloWorldDeleteAPIView(generics.DestroyAPIView):
     serializer_class = HelloWorldSerializer 
 
 def api_home(request, *args, **kwargs):
-    return JsonResponse({"message": "Hello CD world! v2"})
+    return JsonResponse({"message": "Hello Codepipeline CD world!"})
